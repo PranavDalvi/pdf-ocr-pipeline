@@ -1,0 +1,6 @@
+pdf2image
+pillow
+pytest
+pytesseract
+pandas
+openpyxl
