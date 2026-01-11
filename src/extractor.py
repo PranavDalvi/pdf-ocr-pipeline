@@ -6,12 +6,14 @@ import pandas as pd
 
 class DataExtractor:
     EMAIL_REGEX = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
+    COMPANY_REGEX = re.compile(r"Company\s+Name\s*[–-]\s*(.+)", re.IGNORECASE)
 
     def __init__(self, headers=None):
         self.headers = headers or ["Company", "Email"]
 
     def to_dataframe(self, text_blocks: List[str]) -> pd.DataFrame:
         rows = []
+        current_company = ""
 
         for block in text_blocks:
             for line in block.split("\n"):
@@ -19,14 +21,14 @@ class DataExtractor:
                 if not line:
                     continue
 
-                email_match = self.EMAIL_REGEX.search(line)
-                if not email_match:
+                company_match = self.COMPANY_REGEX.search(line)
+                if company_match:
+                    current_company = company_match.group(1).strip()
                     continue
 
-                email = email_match.group()
-                company = line.replace(email, "").strip()
-
-                rows.append([company, email])
+                email_match = self.EMAIL_REGEX.search(line)
+                if email_match:
+                    rows.append([current_company, email_match.group()])
 
         df = pd.DataFrame(rows, columns=self.headers)
 

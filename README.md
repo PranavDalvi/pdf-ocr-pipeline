@@ -50,9 +50,9 @@ PDF → Images → OCR → DataFrame → Excel
 | + to_dataframe() |    | + export()       |
 +------------------+    +------------------+
 ```
-
+### Project Folder Structure
 ```bash
-pdf_to_excel/
+pdf-ocr-pipeline/
 │
 ├── src/
 │   ├── __init__.py

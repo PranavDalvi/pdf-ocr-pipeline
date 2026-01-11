@@ -4,3 +4,4 @@ pytest
 pytesseract
 pandas
 openpyxl
+pdfplumber
